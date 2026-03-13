@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * { margin: 0; padding: 0; }
+    html, body { width: 100%; height: 100%; background: #000; overflow: hidden; }
+    iframe { width: 100%; height: 100%; border: 0; }
+  </style>
+</head>
+<body>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/kv0KJ2-2swc?si=HGHrfx31fzX1W0Mr" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+<!-- <script>
+(function () {
+  const TAG = '%c[YT]';
+  const S   = 'background:#f00;color:#fff;padding:2px 5px;border-radius:3px;font-weight:bold';
+  const iframe = document.getElementById('yt-player');
+
+  function send(msg) {
+    const str = JSON.stringify(msg);
+    console.log(TAG + ' → sending:', S, str);
+    iframe.contentWindow.postMessage(str, 'https://www.youtube.com');
+  }
+
+  let currentTime = 0;
+  let duration    = 0;
+
+  window.addEventListener('message', (e) => {
+    if (!e.origin.includes('youtube.com')) return;
+    let d;
+    try { d = typeof e.data === 'string' ? JSON.parse(e.data) : e.data; } catch { return; }
+
+    const info = d?.info;
+    if (info?.currentTime !== undefined) currentTime = info.currentTime;
+    if (info?.duration)                  duration    = info.duration;
+
+    const states = { '-1':'unstarted', '0':'ended', '1':'▶ playing', '2':'⏸ paused', '3':'⏳ buffering', '5':'cued' };
+    if (info?.playerState !== undefined)
+      console.log(TAG + ` 🎬 state → ${states[info.playerState]}`, S);
+    if (info?.currentTime !== undefined)
+      console.log(TAG + ` ⏱ ${info.currentTime.toFixed(2)}s / ${duration.toFixed(0)}s`, S);
+    if (d?.event === 'onReady')
+      console.log(TAG + ' ✅ onReady — player is ready!', S);
+
+    console.log(TAG + ' ← raw:', S, d);
+  });
+
+  // Subscribe once iframe is ready
+  iframe.addEventListener('load', () => {
+    setTimeout(() => {
+      send({ event: 'listening' });
+      send({ event: 'command', func: 'addEventListener', args: ['onStateChange'] });
+      send({ event: 'command', func: 'addEventListener', args: ['onReady'] });
+      console.log(TAG + ' 📡 Subscribed to YouTube events', S);
+    }, 500);
+  });
+
+  // PAGE UP  = +10s
+  // PAGE DOWN = -10s
+  // HOME     = go to start
+  // END      = go to end
+  const SKIP = 10;
+  document.addEventListener('keydown', (e) => {
+    if (!['PageUp', 'PageDown', 'Home', 'End'].includes(e.key)) return;
+    e.preventDefault();
+
+    let target;
+    switch (e.key) {
+      case 'PageUp':   target = currentTime + SKIP;              break;
+      case 'PageDown': target = Math.max(0, currentTime - SKIP); break;
+      case 'Home':     target = 0;                               break;
+      case 'End':      target = duration > 1 ? duration - 1 : 9999; break;
+    }
+
+    console.log(TAG + ` ⌨️ ${e.key} → seekTo(${target.toFixed(1)}s)  [was: ${currentTime.toFixed(1)}s]`, S);
+    send({ event: 'command', func: 'seekTo', args: [target, true] });
+  });
+
+  console.log(TAG + ' 🟢 Skip controller active — PAGE UP / PAGE DOWN / HOME / END', S);
+})();
+</script> -->
+
+</body>
+</html>
